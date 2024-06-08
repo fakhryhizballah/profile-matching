@@ -1,0 +1,467 @@
+{
+	"info": {
+		"_postman_id": "09f27efd-dba4-4b04-a674-b5fc7ae3e833",
+		"name": "PROFILE MATCHING",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11678043"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"access_token\", jsonData.data[\"access_token\"])",
+									"pm.collectionVariables.set(\"refresh_token\", jsonData.data[\"refresh_token\"])"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"username\":\"amirullazmi\",\n\"password\": \"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "level akses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/auth/level",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"level"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registrasi",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"amirullazmi\",\r\n    \"fullname\": \"Amirull Azmi\",\r\n    \"email\": \"amirullazmi0@gmail.com\",\r\n    \"nohp\": 8994627432,\r\n    \"password\": \"12345\",\r\n    \"lvid\": [\r\n        1\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Tambah rekomendasi Pasinggrade",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nama_juruasan\": \"Informatika\",\n    \"kategori\": \"IPA\",\n    \"matematika\": 60,\n    \"bahasa_indonesia\": 50,\n    \"bahasa_inggris\": 50,\n    \"fisika\": 60,\n    \"kimia\": 50,\n    \"biologi\": 50,\n    \"geografi\": null,\n    \"ekonomi\": null,\n    \"sosiologi\": null,\n    \"sejarah\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/rekomendasi",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"rekomendasi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tambah rekomendasi IPS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nama_juruasan\": \"Informatika\",\n    \"kategori\": \"IPS\",\n    \"matematika\": 60,\n    \"bahasa_indonesia\": 50,\n    \"bahasa_inggris\": 50,\n    \"fisika\": null,\n    \"kimia\": null,\n    \"biologi\": null,\n    \"geografi\": 60,\n    \"ekonomi\": 60,\n    \"sosiologi\": 60,\n    \"sejarah\": 90\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/rekomendasi",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"rekomendasi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cek rekomendasi",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/rekomendasi",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"rekomendasi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit rekomendasi nilai",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nama_juruasan\": \"Pendidikan ekonomi\",\n    \"kategori\": \"IPS\",\n    \"matematika\": 50,\n    \"bahasa_indonesia\": 50,\n    \"bahasa_inggris\": 50,\n    \"fisika\": null,\n    \"kimia\": null,\n    \"biologi\": null,\n    \"geografi\": 60,\n    \"ekonomi\": 81,\n    \"sosiologi\": 60,\n    \"sejarah\": 60\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/rekomendasi/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"rekomendasi",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit rekomendasi nilai Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/admin/rekomendasi/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"rekomendasi",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Siswa",
+			"item": [
+				{
+					"name": "get Data siswa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/siswa/biodata",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"siswa",
+								"biodata"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Data Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"alamat\": \"Jalan Jalan\",\n                \"ttl\": \"2024-06-13\",\n                \"jenis_kelamin\": \"L\",\n                \"agama\":\"Islam\" ,\n                \"asal_sekolah\": \"SMA N\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/siswa/biodata",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"siswa",
+								"biodata"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "simpan nilai IPA",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kategori\": \"IPA\",\n    \"matematika\": 90,\n    \"bahasa_indonesia\": 50,\n    \"bahasa_inggris\": 50,\n    \"fisika\": 60,\n    \"kimia\": 50,\n    \"biologi\": 50,\n    \"geografi\": null,\n    \"ekonomi\": null,\n    \"sosiologi\": null,\n    \"sejarah\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/siswa/nilai",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"siswa",
+								"nilai"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "simpan nilai IPS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kategori\": \"IPS\",\n    \"matematika\": 60,\n    \"bahasa_indonesia\": 70,\n    \"bahasa_inggris\": 70,\n    \"fisika\": null,\n    \"kimia\": null,\n    \"biologi\": null,\n    \"geografi\": 90,\n    \"ekonomi\": 75,\n    \"sosiologi\": 80,\n    \"sejarah\": 75\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/siswa/nilai",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"siswa",
+								"nilai"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get nilai",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/siswa/rekomendasi",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"siswa",
+								"rekomendasi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get rekomendasi Minimal lulus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/siswa/rekomendasi",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"siswa",
+								"rekomendasi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get rekomendasi score",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/siswa/rekomendasi/score",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"siswa",
+								"rekomendasi",
+								"score"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
