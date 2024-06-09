@@ -180,7 +180,10 @@ module.exports = {
                         geografi: geografi,
                         ekonomi: ekonomi,
                         sosiologi: sosiologi,
-                        sejarah: sejarah
+                        sejarah: sejarah,
+                        matematika: matematika,
+                        bahasa_indonesia: bahasa_indonesia,
+                        bahasa_inggris: bahasa_inggris
 
                     });
 
