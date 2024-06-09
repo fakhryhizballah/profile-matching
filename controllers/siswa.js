@@ -164,18 +164,18 @@ module.exports = {
                         item.sejarah <= nilaiSiswa.sejarah
                     );
                 });
-                for (let i = 0; i < rekomendasi.length; i++) {
+                for (const element of rekomendasi) {
                     let score = 0;
-                    let geografi = (nilaiSiswa.geografi - rekomendasi[i].geografi) / (100 - rekomendasi[i].geografi);
-                    let ekonomi = (nilaiSiswa.ekonomi - rekomendasi[i].ekonomi) / (100 - rekomendasi[i].ekonomi);
-                    let sosiologi = (nilaiSiswa.sosiologi - rekomendasi[i].sosiologi) / (100 - rekomendasi[i].sosiologi);
-                    let sejarah = (nilaiSiswa.sejarah - rekomendasi[i].sejarah) / (100 - rekomendasi[i].sejarah);
-                    let matematika = (nilaiSiswa.matematika - rekomendasi[i].matematika) / (100 - rekomendasi[i].matematika);
-                    let bahasa_indonesia = (nilaiSiswa.bahasa_indonesia - rekomendasi[i].bahasa_indonesia) / (100 - rekomendasi[i].bahasa_indonesia);
-                    let bahasa_inggris = (nilaiSiswa.bahasa_inggris - rekomendasi[i].bahasa_inggris) / (100 - rekomendasi[i].bahasa_inggris);
+                    let geografi = (nilaiSiswa.geografi - element.geografi) / (100 - element.geografi);
+                    let ekonomi = (nilaiSiswa.ekonomi - element.ekonomi) / (100 - element.ekonomi);
+                    let sosiologi = (nilaiSiswa.sosiologi - element.sosiologi) / (100 - element.sosiologi);
+                    let sejarah = (nilaiSiswa.sejarah - element.sejarah) / (100 - element.sejarah);
+                    let matematika = (nilaiSiswa.matematika - element.matematika) / (100 - element.matematika);
+                    let bahasa_indonesia = (nilaiSiswa.bahasa_indonesia - element.bahasa_indonesia) / (100 - element.bahasa_indonesia);
+                    let bahasa_inggris = (nilaiSiswa.bahasa_inggris - element.bahasa_inggris) / (100 - element.bahasa_inggris);
                     score = geografi + ekonomi + sosiologi + sejarah + matematika + bahasa_indonesia + bahasa_inggris;
                     dataRekomendasi.push({
-                        jurusan: rekomendasi[i].nama_juruasan,
+                        jurusan: element.nama_juruasan,
                         score: score,
                         geografi: geografi,
                         ekonomi: ekonomi,
@@ -219,17 +219,17 @@ module.exports = {
                         item.biologi <= nilaiSiswa.biologi
                     );
                 });
-                for (let i = 0; i < rekomendasi.length; i++) {
+                for (const element of rekomendasi) {
                     let score = 0;
-                    let fisika = (nilaiSiswa.fisika - rekomendasi[i].fisika) / (100 - rekomendasi[i].fisika);
-                    let kimia = (nilaiSiswa.kimia - rekomendasi[i].kimia) / (100 - rekomendasi[i].kimia);
-                    let biologi = (nilaiSiswa.biologi - rekomendasi[i].biologi) / (100 - rekomendasi[i].biologi);
-                    let matematika = (nilaiSiswa.matematika - rekomendasi[i].matematika) / (100 - rekomendasi[i].matematika);
-                    let bahasa_indonesia = (nilaiSiswa.bahasa_indonesia - rekomendasi[i].bahasa_indonesia) / (100 - rekomendasi[i].bahasa_indonesia);
-                    let bahasa_inggris = (nilaiSiswa.bahasa_inggris - rekomendasi[i].bahasa_inggris) / (100 - rekomendasi[i].bahasa_inggris);
+                    let fisika = (nilaiSiswa.fisika - element.fisika) / (100 - element.fisika);
+                    let kimia = (nilaiSiswa.kimia - element.kimia) / (100 - element.kimia);
+                    let biologi = (nilaiSiswa.biologi - element.biologi) / (100 - element.biologi);
+                    let matematika = (nilaiSiswa.matematika - element.matematika) / (100 - element.matematika);
+                    let bahasa_indonesia = (nilaiSiswa.bahasa_indonesia - element.bahasa_indonesia) / (100 - element.bahasa_indonesia);
+                    let bahasa_inggris = (nilaiSiswa.bahasa_inggris - element.bahasa_inggris) / (100 - element.bahasa_inggris);
                     score = fisika + kimia + biologi + matematika + bahasa_indonesia + bahasa_inggris;
                     dataRekomendasi.push({
-                        jurusan: rekomendasi[i].nama_juruasan,
+                        jurusan: element.nama_juruasan,
                         score: score,
                         fisika: fisika,
                         kimia: kimia,
