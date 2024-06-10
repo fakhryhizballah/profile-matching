@@ -37,10 +37,16 @@ module.exports = {
         type: Sequelize.STRING
       },
       nilai_rata_rata: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DOUBLE
       },
       rekomendasi_jurusan_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'rekomendasi_jurusans'
+          },
+          key: 'id',
+        }
       },
       createdAt: {
         allowNull: false,

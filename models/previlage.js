@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Previlage.hasOne(models.Level, { foreignKey: 'id', as: 'Level' })
+      Previlage.hasOne(models.User, { foreignKey: 'gid', sourceKey: 'gid', as: 'User' })
     }
 
   }

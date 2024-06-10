@@ -12,6 +12,7 @@ module.exports = {
       gid: {
         allowNull: false,
         primaryKey: true,
+        unique: true,
         type: Sequelize.STRING
       },
       nohp: {

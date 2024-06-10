@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      siswa.hasOne(models.rekomendasi_jurusan, { foreignKey: 'id', sourceKey: 'rekomendasi_jurusan_id', as: 'rekomendasi_jurusan' })
     }
   }
   siswa.init({
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     jenis_kelamin: DataTypes.STRING,
     agama: DataTypes.STRING,
     asal_sekolah: DataTypes.STRING,
-    nilai_rata_rata: DataTypes.INTEGER,
+    nilai_rata_rata: DataTypes.DOUBLE,
     rekomendasi_jurusan_id: DataTypes.INTEGER
   }, {
     sequelize,
