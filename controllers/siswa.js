@@ -3,6 +3,18 @@ const { get } = require("../routes/admin");
 module.exports = {
     addNilai: async (req, res) => {
         let data = req.body;
+        let isExist = await siswa.findOne({
+            where: {
+                gid: req.user.gid,
+            },
+        });
+        if (!isExist) {
+            return res.status(400).json({
+                status: false,
+                message: "Lengkapi biodata anda terlebih dahulu",
+                data: null,
+            });
+        }
         if (data.kategori != "IPA" && data.kategori != "IPS") {
             res.status(400).json({
                 status: false,
@@ -175,6 +187,7 @@ module.exports = {
                     let bahasa_inggris = (nilaiSiswa.bahasa_inggris - element.bahasa_inggris) / (100 - element.bahasa_inggris);
                     score = geografi + ekonomi + sosiologi + sejarah + matematika + bahasa_indonesia + bahasa_inggris;
                     dataRekomendasi.push({
+                        id: element.id,
                         jurusan: element.nama_juruasan,
                         score: score,
                         geografi: geografi,
@@ -200,12 +213,19 @@ module.exports = {
                         data: null,
                     });
                 }
+                await siswa.update({
+                    nilai_rata_rata: dataRekomendasi[0].score,
+                    rekomendasi_jurusan_id: dataRekomendasi[0].id
+                }, {
+                    where: {
+                        gid: req.user.gid
+                    }
+                });
               return  res.status(200).json({
                     status: true,
-                    message: "Rekomendasi Jurusan anda",
+                  message: "Rekomendasi Jurusan anda IPS",
                     data: dataRekomendasi,
-                    nilaiSiswa,
-                    rekomendasi
+                  nilaiSiswa
                 });
             }
             if (nilaiSiswa.kategori == IPA){
@@ -253,12 +273,19 @@ module.exports = {
                         data: null,
                     });
                 }
+                await siswa.update({
+                    nilai_rata_rata: dataRekomendasi[0].score,
+                    rekomendasi_jurusan_id: dataRekomendasi[0].id
+                }, {
+                    where: {
+                        gid: req.user.gid
+                    }
+                });
                 return res.status(200).json({
                     status: true,
-                    message: "Rekomendasi Jurusan anda",
+                    message: "Rekomendasi Jurusan anda IPA",
                     data: dataRekomendasi,
-                    nilaiSiswa,
-                    rekomendasi
+                    nilaiSiswa
                 });
             }
            
@@ -281,6 +308,14 @@ module.exports = {
             let biodataSiswa = await siswa.findOne({
                 where: {
                     gid: req.user.gid,
+                },
+                include: [{
+                    model: rekomendasi_jurusan,
+                    as: "rekomendasi_jurusan",
+                    attributes: ["nama_juruasan"],
+                }],
+                attributes: {
+                    exclude: ["rekomendasi_jurusan_id", "createdAt", "updatedAt"],
                 },
             });
             if (!biodataSiswa) {
