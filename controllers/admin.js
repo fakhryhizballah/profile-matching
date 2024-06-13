@@ -85,7 +85,7 @@ module.exports = {
     },
     getUser: async (req, res) => {
         try {
-            let siswa = await Previlage.findAll({
+            let datasiswa = await Previlage.findAll({
                 where: {
                     lvid: 2
                 },
@@ -100,15 +100,15 @@ module.exports = {
                     {
                         model: siswa,
                         as: 'siswa',
-                        // attributes: {
-                        //     exclude: ['rekomendasi_jurusan_id']
-                        // },
-                        // include: [
-                        //     {
-                        //         model: rekomendasi_jurusan,
-                        //         as: 'rekomendasi_jurusan'
-                        //     }
-                        // ]
+                        attributes: {
+                            exclude: ['rekomendasi_jurusan_id']
+                        },
+                        include: [
+                            {
+                                model: rekomendasi_jurusan,
+                                as: 'rekomendasi_jurusan'
+                            }
+                        ]
                     }
 
                 ],
@@ -119,7 +119,7 @@ module.exports = {
             res.status(200).json({
                 status: true,
                 message: 'Data berhasil ditampilkan',
-                data: siswa
+                data: datasiswa
             });
         } catch (error) {
             console.log(error)
