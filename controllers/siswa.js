@@ -228,7 +228,7 @@ module.exports = {
                   nilaiSiswa
                 });
             }
-            if (nilaiSiswa.kategori == IPA){
+            if (nilaiSiswa.kategori == "IPA") {
                 rekomendasi = rekomendasi.filter((item) => {
                     return (
                         item.matematika <= nilaiSiswa.matematika &&
@@ -263,8 +263,7 @@ module.exports = {
                 // order by score
                 dataRekomendasi.sort((a,b) => {
                     return b.score - a.score;
-                }
-                );
+                });
                 if (rekomendasi.length == 0) {
                     return res.status(201).json({
                         status: true,
@@ -291,6 +290,8 @@ module.exports = {
            
             
         } catch (error) {
+            console.log("error");
+            console.log(error);
             res.status(400).json({
                 status: false,
                 message: error,
