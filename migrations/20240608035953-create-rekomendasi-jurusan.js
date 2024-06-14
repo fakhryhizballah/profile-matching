@@ -45,9 +45,6 @@ module.exports = {
       sosiologi: {
         type: Sequelize.INTEGER
       },
-      sejarah: {
-        type: Sequelize.INTEGER
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

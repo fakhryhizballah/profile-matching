@@ -67,6 +67,13 @@ module.exports = {
                     gid: req.user.gid,
                 },
             });
+            if (!data) {
+                return res.status(208).json({
+                    status: true,
+                    message: "Data nilai anda belum diinputkan",
+                    data: null,
+                });
+            }
             res.status(200).json({
                 status: true,
                 message: "Data berhasil ditampilkan",
@@ -87,7 +94,7 @@ module.exports = {
                 },
             });
             if (!nilaiSiswa) {
-                return res.status(201).json({
+                return res.status(208).json({
                     status: true,
                     message: "Masukkan nilai anda terlebih dahulu",
                     data: null,
@@ -106,8 +113,7 @@ module.exports = {
                         item.bahasa_inggris <= nilaiSiswa.bahasa_inggris &&
                         item.geografi <= nilaiSiswa.geografi &&
                         item.ekonomi <= nilaiSiswa.ekonomi &&
-                        item.sosiologi <= nilaiSiswa.sosiologi &&
-                        item.sejarah <= nilaiSiswa.sejarah
+                        item.sosiologi <= nilaiSiswa.sosiologi
                     );
                 });
             }
@@ -124,10 +130,9 @@ module.exports = {
                 });
             }
             if (rekomendasi.length == 0) {
-                return res.status(201).json({
+                return res.status(208).json({
                     status: true,
-                    message:
-                        "Tidak ada rekomendasi jurusan yang sesuai dengan nilai anda",
+                    message: "Tidak ada rekomendasi jurusan yang sesuai dengan nilai anda",
                     data: null,
                 });
             }
@@ -151,7 +156,7 @@ module.exports = {
                 },
             });
             if (!nilaiSiswa) {
-                return res.status(201).json({
+                return res.status(208).json({
                     status: true,
                     message: "Masukkan nilai anda terlebih dahulu",
                     data: null,
@@ -172,8 +177,7 @@ module.exports = {
                         item.bahasa_inggris <= nilaiSiswa.bahasa_inggris &&
                         item.geografi <= nilaiSiswa.geografi &&
                         item.ekonomi <= nilaiSiswa.ekonomi &&
-                        item.sosiologi <= nilaiSiswa.sosiologi &&
-                        item.sejarah <= nilaiSiswa.sejarah
+                        item.sosiologi <= nilaiSiswa.sosiologi
                     );
                 });
                 for (const element of rekomendasi) {
@@ -181,7 +185,6 @@ module.exports = {
                     let geografi = (nilaiSiswa.geografi - element.geografi) / (100 - element.geografi);
                     let ekonomi = (nilaiSiswa.ekonomi - element.ekonomi) / (100 - element.ekonomi);
                     let sosiologi = (nilaiSiswa.sosiologi - element.sosiologi) / (100 - element.sosiologi);
-                    let sejarah = (nilaiSiswa.sejarah - element.sejarah) / (100 - element.sejarah);
                     let matematika = (nilaiSiswa.matematika - element.matematika) / (100 - element.matematika);
                     let bahasa_indonesia = (nilaiSiswa.bahasa_indonesia - element.bahasa_indonesia) / (100 - element.bahasa_indonesia);
                     let bahasa_inggris = (nilaiSiswa.bahasa_inggris - element.bahasa_inggris) / (100 - element.bahasa_inggris);
@@ -193,11 +196,9 @@ module.exports = {
                         geografi: geografi,
                         ekonomi: ekonomi,
                         sosiologi: sosiologi,
-                        sejarah: sejarah,
                         matematika: matematika,
                         bahasa_indonesia: bahasa_indonesia,
                         bahasa_inggris: bahasa_inggris
-
                     });
 
                 }
@@ -206,7 +207,7 @@ module.exports = {
                     return b.score - a.score;
                 });
                 if (rekomendasi.length == 0) {
-                    return res.status(201).json({
+                    return res.status(208).json({
                         status: true,
                         message:
                             "Tidak ada rekomendasi jurusan yang sesuai dengan nilai anda",
@@ -265,7 +266,7 @@ module.exports = {
                     return b.score - a.score;
                 });
                 if (rekomendasi.length == 0) {
-                    return res.status(201).json({
+                    return res.status(208).json({
                         status: true,
                         message:
                             "Tidak ada rekomendasi jurusan yang sesuai dengan nilai anda",
@@ -287,8 +288,7 @@ module.exports = {
                     nilaiSiswa
                 });
             }
-           
-            
+
         } catch (error) {
             console.log("error");
             console.log(error);
@@ -320,19 +320,35 @@ module.exports = {
                 },
             });
             if (!biodataSiswa) {
-                return res.status(200).json({
+                let data = {
+                    gid: getBiodata.gid,
+                    username: getBiodata.username,
+                    fullname: getBiodata.fullname,
+                    email: getBiodata.email,
+                    nohp: getBiodata.nohp,
+                    pic: getBiodata.pic,
+                    alamat: null,
+                    ttl: null,
+                    jenis_kelamin: null,
+                    agama: null,
+                    asal_sekolah: null,
+                    nilai_rata_rata: null,
+                    rekomendasi_jurusan: null,
+                };
+                return res.status(208).json({
                     status: true,
                     message: "Ups, biodata anda belum lengkap, silahkan lengkapi biodata anda",
-                    data: getBiodata,
+                    data: data,
                 });
             }
+            let datasis = {
+                ...biodataSiswa.dataValues,
+                ...getBiodata.dataValues,
+            };
             res.status(200).json({
                 status: true,
                 message: "Data berhasil ditampilkan",
-                data: {
-                    biodata: biodataSiswa,
-                    user: getBiodata
-                },
+                data: datasis
             });
         } catch (error) {
             res.status(400).json({
@@ -364,26 +380,25 @@ module.exports = {
                     data: biodata,
                 });
             }
-            let biodata = await siswa.update(data, {
-                where: {
-                    gid: req.user.gid,
-                },
-            });
-            // let biodata = await siswa.create({
-            // gid: req.user.gid,
-            // alamat: data.alamat,
-            // ttl: data.ttl,
-            // jenis_kelamin: data.jenis_kelamin,
-            // agama: data.agama,
-            // asal_sekolah: data.asal_sekolah,
+            // let biodata = await siswa.update(data, {
+            //     where: {
+            //         gid: req.user.gid,
+            //     },
             // });
+            await findBio.update(data);
+            // let datasis = {
+            //     ...data,
+            //     ...findBio,
+            //     createdAt: findBio.createdAt,
+            //     updatedAt: findBio.updatedAt
+            // }
             res.status(200).json({
                 status: true,
-                message: "Biodata berhasil ditambahkan",
-                data: biodata,
+                message: "Biodata berhasil diupdate",
+                data: findBio,
             });
         } catch (error) {
-            res.status(400).json({
+            res.status(500).json({
                 status: false,
                 message: error,
             });

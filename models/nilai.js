@@ -24,8 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     biologi: DataTypes.INTEGER,
     geografi: DataTypes.INTEGER,
     ekonomi: DataTypes.INTEGER,
-    sosiologi: DataTypes.INTEGER,
-    sejarah: DataTypes.INTEGER
+    sosiologi: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'nilai',
