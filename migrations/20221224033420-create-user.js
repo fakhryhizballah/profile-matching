@@ -18,10 +18,12 @@ module.exports = {
       nohp: {
         allowNull: false,
         primaryKey: true,
+        unique: true,
         type: Sequelize.BIGINT
       },
       username: {
         primaryKey: true,
+        unique: true,
         type: Sequelize.STRING
       },
       fullname: {
@@ -29,6 +31,7 @@ module.exports = {
       },
       email: {
         primaryKey: true,
+        unique: true,
         type: Sequelize.STRING
       },
       password: {
