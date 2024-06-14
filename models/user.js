@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
             ]
           }
         });
-        if (!user) return Promise.reject(new Error('user not found!'));
+        if (!user) return Promise.reject(new Error('You are not registered yet!'));
 
         const isPasswordValid = user.checkPassword(password);
         if (!isPasswordValid) return Promise.reject(new Error('wrong password!'));

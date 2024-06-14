@@ -136,10 +136,16 @@ module.exports = {
                     data: null,
                 });
             }
-            res.status(200).json({
+            let dataRekomendasi = rekomendasi.map((item) => {
+                return {
+                    jurusan: item.nama_juruasan,
+                };
+            });
+            return res.status(200).json({
                 status: true,
                 message: "Rekomendasi Jurusan anda",
-                data: rekomendasi,
+                data: dataRekomendasi
+
             });
         } catch (error) {
             res.status(400).json({
@@ -163,6 +169,11 @@ module.exports = {
                 });
             }
             let rekomendasi = await rekomendasi_jurusan.findAll({
+                where: {
+                    kategori: nilaiSiswa.kategori,
+                },
+            });
+            let passingGrade = await rekomendasi_jurusan.findAll({
                 where: {
                     kategori: nilaiSiswa.kategori,
                 },
@@ -192,7 +203,7 @@ module.exports = {
                     dataRekomendasi.push({
                         id: element.id,
                         jurusan: element.nama_juruasan,
-                        score: score,
+                        score: score.toFixed(2),
                         geografi: geografi,
                         ekonomi: ekonomi,
                         sosiologi: sosiologi,
@@ -216,7 +227,7 @@ module.exports = {
                 }
                 await siswa.update({
                     nilai_rata_rata: dataRekomendasi[0].score,
-                    rekomendasi_jurusan_id: dataRekomendasi[0].id
+                    rekomendasi_jurusan_id: dataRekomendasi[0].jurusan
                 }, {
                     where: {
                         gid: req.user.gid
@@ -226,7 +237,8 @@ module.exports = {
                     status: true,
                   message: "Rekomendasi Jurusan anda IPS",
                     data: dataRekomendasi,
-                  nilaiSiswa
+                  nilaiSiswa,
+                  passingGrade
                 });
             }
             if (nilaiSiswa.kategori == "IPA") {
@@ -250,8 +262,9 @@ module.exports = {
                     let bahasa_inggris = (nilaiSiswa.bahasa_inggris - element.bahasa_inggris) / (100 - element.bahasa_inggris);
                     score = fisika + kimia + biologi + matematika + bahasa_indonesia + bahasa_inggris;
                     dataRekomendasi.push({
+                        id: element.id,
                         jurusan: element.nama_juruasan,
-                        score: score,
+                        score: score.toFixed(2),
                         fisika: fisika,
                         kimia: kimia,
                         biologi: biologi,
@@ -285,7 +298,9 @@ module.exports = {
                     status: true,
                     message: "Rekomendasi Jurusan anda IPA",
                     data: dataRekomendasi,
-                    nilaiSiswa
+                    nilaiSiswa,
+                    passingGrade,
+
                 });
             }
 
@@ -316,7 +331,7 @@ module.exports = {
                     attributes: ["nama_juruasan"],
                 }],
                 attributes: {
-                    exclude: ["rekomendasi_jurusan_id", "createdAt", "updatedAt"],
+                    exclude: ["id", "rekomendasi_jurusan_id", "createdAt", "updatedAt"],
                 },
             });
             if (!biodataSiswa) {

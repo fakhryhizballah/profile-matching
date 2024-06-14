@@ -23,10 +23,22 @@ module.exports = {
         },
       });
       if (isExist) {
+        console.log(isExist);
+        // cek data yang sama
+        let data = [];
+        if (isExist.email == email) {
+          data.push("email already exist!");
+        }
+        if (isExist.username == username) {
+          data.push("username already exist!");
+        }
+        if (isExist.nohp == nohp) {
+          data.push("nohp already exist!");
+        }
         return res.status(400).json({
           status: false,
           message: "user already exist!",
-          data: null,
+          data: data,
         });
       }
       const hashPassword = await bcrypt.hash(password, 10);
