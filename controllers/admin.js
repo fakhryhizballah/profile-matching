@@ -52,6 +52,32 @@ module.exports = {
             });
         }
     },
+    getOneRekomendasi: async (req, res) => {
+        try {
+            let data = await rekomendasi_jurusan.findOne({
+                where: {
+                    id: req.params.id
+                }
+            });
+            if (!data) {
+                return res.status(400).json({
+                    status: false,
+                    message: 'Data tidak ditemukan',
+                    data: null
+                });
+            }
+            return res.status(200).json({
+                status: true,
+                message: 'Data berhasil ditampilkan',
+                data: data
+            });
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error.errors[0].message
+            });
+        }
+    }
     editNilai : async (req, res) => {
         let data = req.body;
         try {
