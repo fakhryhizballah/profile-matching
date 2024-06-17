@@ -72,12 +72,12 @@ module.exports = {
                 data: data
             });
         } catch (error) {
-            return res.status(400).json({
+            return res.status(500).json({
                 status: false,
-                message: error.errors[0].message
+                message: error
             });
         }
-    }
+    },
     editNilai : async (req, res) => {
         let data = req.body;
         try {
