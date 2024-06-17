@@ -33,6 +33,13 @@ module.exports = {
     getRekomendais: async (req, res) => {
         try {
             let data = await rekomendasi_jurusan.findAll();
+            if (!data) {
+                return res.status(400).json({
+                    status: false,
+                    message: 'Data tidak ditemukan',
+                    data: null
+                });
+            }
             return res.status(200).json({
                 status: true,
                 message: 'Data berhasil ditampilkan',
