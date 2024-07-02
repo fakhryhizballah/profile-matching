@@ -224,9 +224,10 @@ module.exports = {
                         data: null,
                     });
                 }
+                console.log(dataRekomendasi[0])
                 await siswa.update({
                     nilai_rata_rata: dataRekomendasi[0].score,
-                    rekomendasi_jurusan_id: dataRekomendasi[0].jurusan
+                    rekomendasi_jurusan_id: dataRekomendasi[0].id
                 }, {
                     where: {
                         gid: req.user.gid
