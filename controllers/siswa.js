@@ -40,8 +40,7 @@ module.exports = {
                 biologi: data.biologi,
                 geografi: data.geografi,
                 ekonomi: data.ekonomi,
-                sosiologi: data.sosiologi,
-                sejarah: data.sejarah,
+                sosiologi: data.sosiologi
             });
             return res.status(400).json({
                 status: false,
@@ -199,7 +198,7 @@ module.exports = {
                     let matematika = (nilaiSiswa.matematika - element.matematika) / (100 - element.matematika);
                     let bahasa_indonesia = (nilaiSiswa.bahasa_indonesia - element.bahasa_indonesia) / (100 - element.bahasa_indonesia);
                     let bahasa_inggris = (nilaiSiswa.bahasa_inggris - element.bahasa_inggris) / (100 - element.bahasa_inggris);
-                    score = geografi + ekonomi + sosiologi + sejarah + matematika + bahasa_indonesia + bahasa_inggris;
+                    score = geografi + ekonomi + sosiologi + matematika + bahasa_indonesia + bahasa_inggris;
                     dataRekomendasi.push({
                         id: element.id,
                         jurusan: element.nama_juruasan,
