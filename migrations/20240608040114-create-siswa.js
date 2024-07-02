@@ -46,7 +46,11 @@ module.exports = {
             tableName: 'rekomendasi_jurusans'
           },
           key: 'id',
-        }
+          foreignKey: 'rekomendasi_jurusan_id',
+        },
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
