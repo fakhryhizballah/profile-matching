@@ -18,7 +18,9 @@ module.exports = {
             tableName: 'Users'
           },
           key: 'gid',
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
 
       },
       alamat: {
