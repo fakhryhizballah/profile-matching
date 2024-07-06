@@ -469,7 +469,7 @@ module.exports = {
                     status: true,
                     message: "Berikut adalah bobot nilai",
                     data: {
-                        nilaiData: nilaiSiwa,
+                        nilaiSiwa: nilaiSiwa,
                         nilaiipa: nilaiipa
                     }
                 });
@@ -517,7 +517,7 @@ module.exports = {
                     status: true,
                     message: "Berikut adalah bobot nilai",
                     data: {
-                        nilaiData: nilaiSiwa,
+                        nilaiSiwa: nilaiSiwa,
                         nilaiips: nilaiips
                     }
                 });
