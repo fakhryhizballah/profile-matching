@@ -12,6 +12,7 @@ routes.get('/rekomendasi',middleware.siswa, base.getRekomendasijurusan);
 routes.get('/rekomendasi/score',middleware.siswa, base.getScoreRekomendasi);
 routes.get('/biodata',middleware.siswa, base.getBiodata);
 routes.post('/biodata',middleware.siswa, base.addBiodata);
+routes.get('/bobot/score', middleware.siswa, base.boBotScore);
 
 
 module.exports = routes;

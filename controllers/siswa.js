@@ -1,5 +1,6 @@
 const { rekomendasi_jurusan, nilai, User, siswa } = require("../models");
 const { get } = require("../routes/admin");
+const { convertNilai, convertBobot } = require("../helpers/calculate");
 module.exports = {
     addNilai: async (req, res) => {
         let data = req.body;
@@ -395,18 +396,8 @@ module.exports = {
                     data: biodata,
                 });
             }
-            // let biodata = await siswa.update(data, {
-            //     where: {
-            //         gid: req.user.gid,
-            //     },
-            // });
+
             await findBio.update(data);
-            // let datasis = {
-            //     ...data,
-            //     ...findBio,
-            //     createdAt: findBio.createdAt,
-            //     updatedAt: findBio.updatedAt
-            // }
             res.status(200).json({
                 status: true,
                 message: "Biodata berhasil diupdate",
@@ -418,5 +409,126 @@ module.exports = {
                 message: error,
             });
         }
-    }
+    },
+    boBotScore: async (req, res) => {
+        try {
+            let getNilaiSiwswa = await nilai.findOne({
+                where: {
+                    gid: req.user.gid,
+                },
+            });
+            if (!getNilaiSiwswa) {
+                return res.status(208).json({
+                    status: true,
+                    message: "Ups, nilai anda belum diinputkan, silahkan inputkan nilai anda",
+                    data: null,
+                });
+            }
+            if (getNilaiSiwswa.kategori == "IPA") {
+                let nilaiSiwa = {
+                    matematika: convertNilai(getNilaiSiwswa.matematika),
+                    bahasa_indonesia: convertNilai(getNilaiSiwswa.bahasa_indonesia),
+                    bahasa_inggris: convertNilai(getNilaiSiwswa.bahasa_inggris),
+                    fisika: convertNilai(getNilaiSiwswa.fisika),
+                    kimia: convertNilai(getNilaiSiwswa.kimia),
+                    biologi: convertNilai(getNilaiSiwswa.biologi),
+                };
+                let nilaiipa = await rekomendasi_jurusan.findAll({
+                    where: {
+                        kategori: "IPA",
+                    },
+                });
+                console.log(nilaiipa);
+                for (let e of nilaiipa) {
+                    e.matematika = convertNilai(e.matematika);
+                    e.bahasa_indonesia = convertNilai(e.bahasa_indonesia);
+                    e.bahasa_inggris = convertNilai(e.bahasa_inggris);
+                    e.fisika = convertNilai(e.fisika);
+                    e.kimia = convertNilai(e.kimia);
+                    e.biologi = convertNilai(e.biologi);
+                    e.dataValues.gap_matematika = nilaiSiwa.matematika - e.matematika;
+                    e.dataValues.gap_bahasa_indonesia = nilaiSiwa.bahasa_indonesia - e.bahasa_indonesia;
+                    e.dataValues.gap_bahasa_inggris = nilaiSiwa.bahasa_inggris - e.bahasa_inggris;
+                    e.dataValues.gap_fisika = nilaiSiwa.fisika - e.fisika;
+                    e.dataValues.gap_kimia = nilaiSiwa.kimia - e.kimia;
+                    e.dataValues.gap_biologi = nilaiSiwa.biologi - e.biologi;
+                    e.dataValues.bobot_matematika = convertBobot(e.dataValues.gap_matematika);
+                    e.dataValues.bobot_bahasa_indonesia = convertBobot(e.dataValues.gap_bahasa_indonesia);
+                    e.dataValues.bobot_bahasa_inggris = convertBobot(e.dataValues.gap_bahasa_inggris);
+                    e.dataValues.bobot_fisika = convertBobot(e.dataValues.gap_fisika);
+                    e.dataValues.bobot_kimia = convertBobot(e.dataValues.gap_kimia);
+                    e.dataValues.bobot_biologi = convertBobot(e.dataValues.gap_biologi);
+                    e.dataValues.CORE = (e.dataValues.bobot_fisika + e.dataValues.bobot_kimia + e.dataValues.bobot_biologi) / 3;
+                    e.dataValues.CORE = e.dataValues.CORE.toFixed(2);
+                    e.dataValues.SEC = (e.dataValues.bobot_matematika + e.dataValues.bobot_bahasa_indonesia + e.dataValues.bobot_bahasa_inggris) / 3;
+                    e.dataValues.SEC = e.dataValues.SEC.toFixed(2);
+                    e.dataValues.HASIL = (e.dataValues.CORE * 60 / 100) + (e.dataValues.SEC * 40 / 100);
+                }
+
+                return res.status(200).json({
+                    status: true,
+                    message: "Berikut adalah bobot nilai",
+                    data: {
+                        nilaiData: nilaiSiwa,
+                        nilaiipa: nilaiipa
+                    }
+                });
+
+            } else if (getNilaiSiwswa.kategori == "IPS") {
+                let nilaiSiwa = {
+                    matematika: convertNilai(getNilaiSiwswa.matematika),
+                    bahasa_indonesia: convertNilai(getNilaiSiwswa.bahasa_indonesia),
+                    bahasa_inggris: convertNilai(getNilaiSiwswa.bahasa_inggris),
+                    geografi: convertNilai(getNilaiSiwswa.geografi),
+                    ekonomi: convertNilai(getNilaiSiwswa.ekonomi),
+                    sosiologi: convertNilai(getNilaiSiwswa.sosiologi),
+                };
+                let nilaiips = await rekomendasi_jurusan.findAll({
+                    where: {
+                        kategori: "IPS",
+                    },
+                });
+                for (let e of nilaiips) {
+                    e.matematika = convertNilai(e.matematika);
+                    e.bahasa_indonesia = convertNilai(e.bahasa_indonesia);
+                    e.bahasa_inggris = convertNilai(e.bahasa_inggris);
+                    e.geografi = convertNilai(e.geografi);
+                    e.ekonomi = convertNilai(e.ekonomi);
+                    e.sosiologi = convertNilai(e.sosiologi);
+                    e.dataValues.gap_matematika = nilaiSiwa.matematika - e.matematika;
+                    e.dataValues.gap_bahasa_indonesia = nilaiSiwa.bahasa_indonesia - e.bahasa_indonesia;
+                    e.dataValues.gap_bahasa_inggris = nilaiSiwa.bahasa_inggris - e.bahasa_inggris;
+                    e.dataValues.gap_geografi = nilaiSiwa.geografi - e.geografi;
+                    e.dataValues.gap_ekonomi = nilaiSiwa.ekonomi - e.ekonomi;
+                    e.dataValues.gap_sosiologi = nilaiSiwa.sosiologi - e.sosiologi;
+                    e.dataValues.bobot_matematika = convertBobot(e.dataValues.gap_matematika);
+                    e.dataValues.bobot_bahasa_indonesia = convertBobot(e.dataValues.gap_bahasa_indonesia);
+                    e.dataValues.bobot_bahasa_inggris = convertBobot(e.dataValues.gap_bahasa_inggris);
+                    e.dataValues.bobot_geografi = convertBobot(e.dataValues.gap_geografi);
+                    e.dataValues.bobot_ekonomi = convertBobot(e.dataValues.gap_ekonomi);
+                    e.dataValues.bobot_sosiologi = convertBobot(e.dataValues.gap_sosiologi);
+                    e.dataValues.CORE = (e.dataValues.bobot_geografi + e.dataValues.bobot_ekonomi + e.dataValues.bobot_sosiologi) / 3;
+                    e.dataValues.CORE = e.dataValues.CORE.toFixed(2);
+                    e.dataValues.SEC = (e.dataValues.bobot_matematika + e.dataValues.bobot_bahasa_indonesia + e.dataValues.bobot_bahasa_inggris) / 3;
+                    e.dataValues.SEC = e.dataValues.SEC.toFixed(2);
+                    e.dataValues.HASIL = (e.dataValues.CORE * 60 / 100) + (e.dataValues.SEC * 40 / 100);
+                }
+                return res.status(200).json({
+                    status: true,
+                    message: "Berikut adalah bobot nilai",
+                    data: {
+                        nilaiData: nilaiSiwa,
+                        nilaiips: nilaiips
+                    }
+                });
+            }
+
+
+        } catch (error) {
+            return res.status(500).json({
+                status: false,
+                message: error,
+            });
+        }
+    },
 };
